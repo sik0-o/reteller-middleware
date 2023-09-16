@@ -23,3 +23,11 @@ func NewEntry(r *http.Request) *ctxEntry {
 		response: NewResponseFields(r),
 	}
 }
+
+func (ent *ctxEntry) Request() HttpLogFields {
+	return ent.request
+}
+
+func (ent *ctxEntry) Response() HttpLogFields {
+	return ent.response
+}
