@@ -20,6 +20,7 @@ type HttpLogFields struct {
 	Elapsed time.Duration `json:"elapsed,omitempty"` // response
 }
 
+// NewRequestFields creates a new HttpLogField struct and fills it with request data.
 func NewRequestFields(request *http.Request) HttpLogFields {
 	b, _ := ExportRequestBody(request).(string)
 
@@ -34,6 +35,7 @@ func NewRequestFields(request *http.Request) HttpLogFields {
 	}
 }
 
+// NewResponseFields creates a new HttpLogField struct. Url, Method and IP are provided from request.
 func NewResponseFields(request *http.Request) HttpLogFields {
 	return HttpLogFields{
 		Url:    request.URL.String(),

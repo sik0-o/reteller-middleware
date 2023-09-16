@@ -1,43 +1,10 @@
 package reteller
 
 import (
-	"bytes"
 	"context"
 	"io"
 	"net/http"
 )
-
-var (
-	ctxkey = &contextKey{"reteller.middleware"}
-)
-
-type contextKey struct {
-	name string
-}
-
-func (k *contextKey) String() string {
-	return "ctx key:" + k.name
-}
-
-type ctxEntry struct {
-	buf      *bytes.Buffer
-	r        *http.Request
-	request  HttpLogFields
-	response HttpLogFields
-}
-
-func (ent *ctxEntry) Buffer() io.Writer {
-	return ent.buf
-}
-
-func NewEntry(r *http.Request) *ctxEntry {
-	return &ctxEntry{
-		buf:      &bytes.Buffer{},
-		r:        r,
-		request:  NewRequestFields(r),
-		response: NewResponseFields(r),
-	}
-}
 
 func InjectCtx(r *http.Request) *http.Request {
 	r = r.WithContext(context.WithValue(r.Context(), ctxkey, NewEntry(r)))
